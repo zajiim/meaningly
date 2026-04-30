@@ -32,24 +32,27 @@ GoRouter appRouter(Ref ref) {
         builder: (context, state, navigationShell) {
           return BottomNavBar(navigationShell: navigationShell);
         },
-        branches: [StatefulShellBranch(routes: [
-          GoRoute(
-            path: '/home',
-            name: RouteNames.home,
-            builder: (context, state) => const HomePage(),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/home',
+                name: RouteNames.home,
+                builder: (context, state) => const HomePage(),
+              ),
+              GoRoute(
+                path: '/bookmarks',
+                name: RouteNames.bookmarks,
+                builder: (context, state) => const BookmarksScreen(),
+              ),
+              GoRoute(
+                path: '/settings',
+                name: RouteNames.settings,
+                builder: (context, state) => const SettingsScreen(),
+              ),
+            ],
           ),
-          GoRoute(
-            path: '/bookmarks',
-            name: RouteNames.bookmarks,
-            builder: (context, state) => const BookmarksScreen(),
-          ),
-          GoRoute(
-            path: '/settings',
-            name: RouteNames.settings,
-            builder: (context, state) => const SettingsScreen(),
-          ),
-
-        ])],
+        ],
       ),
     ],
   );

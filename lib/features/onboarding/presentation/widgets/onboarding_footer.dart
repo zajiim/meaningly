@@ -17,7 +17,7 @@ class OnboardingFooter extends StatelessWidget {
     return Row(
       children: [
         TextButton(onPressed: onPrev, child: const Text("Previous")),
-
+        Spacer(),
         TextButton(onPressed: onGetStarted, child: const Text("Get Started")),
       ],
     );

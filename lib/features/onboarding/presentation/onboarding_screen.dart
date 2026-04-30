@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meaningly/app/router/route_names.dart';
+import 'package:meaningly/features/onboarding/presentation/widgets/onboarding_content.dart';
+import 'package:meaningly/features/onboarding/presentation/widgets/onboarding_footer.dart';
 import 'package:meaningly/features/onboarding/presentation/widgets/onboarding_header.dart';
 
 import '../domain/entities/onboarding_content.dart';
@@ -14,20 +17,84 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   final ValueNotifier<int> _currentPageNotifier = ValueNotifier<int>(0);
+
+  void _nextPage() {
+    _pageController.nextPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeIn,
+    );
+  }
+
+  void _prevPage() {
+    _pageController.previousPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _skipToLast() {
+    _pageController.animateToPage(
+      _onboardingData.length - 1,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeIn,
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          OnboardingHeader(
-            pageNotifier: _currentPageNotifier,
-            totalPages: _onboardingData.length,
-            onSkip: () {  },
-
-          )
-        ],
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              OnboardingHeader(
+                pageNotifier: _currentPageNotifier,
+                totalPages: _onboardingData.length,
+                onSkip: _skipToLast,
+              ),
+              Expanded(
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: _onboardingData.length,
+                  itemBuilder: (context, index) => LayoutBuilder(
+                    builder: (context, constraints) => SingleChildScrollView(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: constraints.maxHeight,
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 24.0),
+                            child: CustomOnboardingContent(
+                              image: _onboardingData[index].image,
+                              title: _onboardingData[index].title,
+                              description: _onboardingData[index].description,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  onPageChanged: (index) => _currentPageNotifier.value = index,
+                ),
+              ),
+              OnboardingFooter(
+                  onNext: _nextPage,
+                  onPrev: _prevPage,
+                  onGetStarted: () => context.goNamed(RouteNames.home)
+              )
+            ],
+          ),
+        ),
       ),
     );
+  }
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 }
 
