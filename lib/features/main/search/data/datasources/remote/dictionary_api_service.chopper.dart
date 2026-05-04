@@ -19,11 +19,9 @@ final class _$DictionaryApiService extends DictionaryApiService {
   final Type definitionType = DictionaryApiService;
 
   @override
-  Future<Response<List<DictionaryWordModel>>> getWordsDetails(String word) {
+  Future<Response<dynamic>> getWordsDetails(String word) {
     final Uri $url = Uri.parse('/api/v2/entries/en/${word}');
     final Request $request = Request('GET', $url, client.baseUrl);
-    return client.send<List<DictionaryWordModel>, DictionaryWordModel>(
-      $request,
-    );
+    return client.send<dynamic, dynamic>($request);
   }
 }

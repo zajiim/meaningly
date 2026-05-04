@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'dictionary_word_model.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class DictionaryWordModel {
   final String? word;
   final String? phonetic;
@@ -25,7 +25,7 @@ class DictionaryWordModel {
   Map<String, dynamic> toJson() => _$DictionaryWordModelToJson(this);
 }
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class PhoneticModel {
   final String? text;
   final String? audio;
@@ -45,7 +45,7 @@ class PhoneticModel {
   Map<String, dynamic> toJson() => _$PhoneticModelToJson(this);
 }
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class MeaningModel {
   final String? partOfSpeech;
   final List<DefinitionModel>? definitions;

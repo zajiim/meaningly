@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:fpdart/src/either.dart';
 import 'package:meaningly/core/error/failure.dart';
-import 'package:meaningly/features/main/search/data/models/dictionary_word_model.dart';
 
 import '../../domain/entities/dictionary_word_entity.dart';
 import '../../domain/repository/dictionary_repository.dart';
 import '../datasources/remote/dictionary_api_service.dart';
 import '../mappers/dictionary_mappers.dart';
+import '../models/dictionary_word_model.dart';
 
 class DictionaryRepositoryImpl implements DictionaryRepository {
   final DictionaryApiService _api;
@@ -19,9 +19,17 @@ class DictionaryRepositoryImpl implements DictionaryRepository {
   ) async {
     try {
       final response = await _api.getWordsDetails(query.trim());
+      debugPrint("response isss ====>>> $response");
       if (response.isSuccessful && response.body != null) {
-        debugPrint("condition satisfied====>>>> ${response.body?.map((u) => u.toEntity())}");
-        return Right(response.body!.map((e) => e.toEntity()).toList());
+        // debugPrint("condition satisfied====>>>> ${response.body?.map((u) => u.toEntity())}");
+        final data = response.body as List;
+        final models = data
+            .map((json) => DictionaryWordModel.fromJson(json))
+            .toList();
+        debugPrint("Response isssss====>>>> $models");
+
+        return Right(models.map((e) => e.toEntity()).toList());
+        // return Right(response.body!.map((e) => e.toEntity()).toList());
       } else if (response.statusCode == 404) {
         return Left(Failure('No results found'));
       } else {

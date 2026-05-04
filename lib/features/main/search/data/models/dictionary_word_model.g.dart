@@ -29,9 +29,9 @@ Map<String, dynamic> _$DictionaryWordModelToJson(
 ) => <String, dynamic>{
   'word': instance.word,
   'phonetic': instance.phonetic,
-  'phonetics': instance.phonetics?.map((e) => e.toJson()).toList(),
-  'meanings': instance.meanings?.map((e) => e.toJson()).toList(),
-  'license': instance.license?.toJson(),
+  'phonetics': instance.phonetics,
+  'meanings': instance.meanings,
+  'license': instance.license,
   'sourceUrls': instance.sourceUrls,
 };
 
@@ -50,7 +50,7 @@ Map<String, dynamic> _$PhoneticModelToJson(PhoneticModel instance) =>
       'text': instance.text,
       'audio': instance.audio,
       'sourceUrl': instance.sourceUrl,
-      'license': instance.license?.toJson(),
+      'license': instance.license,
     };
 
 MeaningModel _$MeaningModelFromJson(Map<String, dynamic> json) => MeaningModel(
@@ -69,7 +69,7 @@ MeaningModel _$MeaningModelFromJson(Map<String, dynamic> json) => MeaningModel(
 Map<String, dynamic> _$MeaningModelToJson(MeaningModel instance) =>
     <String, dynamic>{
       'partOfSpeech': instance.partOfSpeech,
-      'definitions': instance.definitions?.map((e) => e.toJson()).toList(),
+      'definitions': instance.definitions,
       'synonyms': instance.synonyms,
       'antonyms': instance.antonyms,
     };
