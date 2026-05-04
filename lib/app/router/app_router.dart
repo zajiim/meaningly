@@ -1,12 +1,12 @@
 import 'package:go_router/go_router.dart';
 import 'package:meaningly/app/router/route_names.dart';
 import 'package:meaningly/features/main/bookmarks/presentation/bookmarks_screen.dart';
-import 'package:meaningly/features/main/home/presentation/bottom_nav_bar.dart';
+import 'package:meaningly/features/main/search/presentation/search_page.dart';
 import 'package:meaningly/features/main/settings/presentation/settings_screen.dart';
 import 'package:meaningly/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../features/main/home/presentation/home_page.dart';
+import '../../features/main/search/presentation/widgets/bottom_nav_bar.dart';
 import '../../features/splash/presentation/splash_screen.dart';
 
 part 'app_router.g.dart';
@@ -38,13 +38,21 @@ GoRouter appRouter(Ref ref) {
               GoRoute(
                 path: '/home',
                 name: RouteNames.home,
-                builder: (context, state) => const HomePage(),
+                builder: (context, state) => const SearchPage(),
               ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
               GoRoute(
                 path: '/bookmarks',
                 name: RouteNames.bookmarks,
                 builder: (context, state) => const BookmarksScreen(),
               ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
               GoRoute(
                 path: '/settings',
                 name: RouteNames.settings,
