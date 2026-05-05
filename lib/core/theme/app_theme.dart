@@ -16,6 +16,7 @@ class AppTheme {
         brightness: Brightness.light,
         primary: AppColors.primaryLight,
         surface: AppColors.backgroundLight,
+        onSurface: AppColors.textPrimaryLightInverse,
       ),
 
       textTheme: const TextTheme(
@@ -38,6 +39,7 @@ class AppTheme {
         brightness: Brightness.dark,
         primary: AppColors.primaryDark,
         surface: AppColors.backgroundDark,
+        onSurface: AppColors.textPrimaryDarkInverse
       ),
 
       textTheme: const TextTheme(

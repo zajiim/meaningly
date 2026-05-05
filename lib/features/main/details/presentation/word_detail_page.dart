@@ -47,7 +47,30 @@ class WordDetailPage extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  WordHeaderWidget(word: word),
+                  WordHeaderWidget(
+                    word: word,
+                    isPlaying: state.isPlaying,
+                    onPlay: () {
+                      final audioUrl = word.phonetics
+                          ?.firstWhere(
+                            (p) => p.audio != null && p.audio!.isNotEmpty,
+                            orElse: () => const Phonetic(),
+                          )
+                          .audio;
+                      if (audioUrl != null) {
+                        ref
+                            .read(
+                              wordDetailProvider(initialPartOfSpeech).notifier,
+                            )
+                            .playAudio(
+                          "https://api.dictionaryapi.dev/media/pronunciations/en/war-uk.mp3"
+                              // audioUrl.startsWith('//')
+                              //     ? 'https:$audioUrl'
+                              //     : audioUrl,
+                            );
+                      }
+                    },
+                  ),
                   const SizedBox(height: 16),
                   if (word.meanings != null && word.meanings!.isNotEmpty)
                     PartOfSpeechSelector(
@@ -77,7 +100,6 @@ class WordDetailPage extends ConsumerWidget {
             ),
 
           const SliverToBoxAdapter(child: SizedBox(height: 32)),
-
         ],
       ),
     );

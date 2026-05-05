@@ -1,7 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:meaningly/app/router/route_names.dart';
 import 'package:meaningly/features/main/bookmarks/presentation/bookmarks_screen.dart';
-import 'package:meaningly/features/main/details/presentation/word_details_page.dart';
 import 'package:meaningly/features/main/search/data/models/dictionary_word_model.dart';
 import 'package:meaningly/features/main/search/domain/entities/dictionary_word_entity.dart';
 import 'package:meaningly/features/main/search/presentation/search_page.dart';

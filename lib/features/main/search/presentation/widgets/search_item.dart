@@ -63,7 +63,7 @@ class SearchItem extends ConsumerWidget {
                 final query = history[index];
                 return ListTile(
                   leading: const Icon(Icons.history, size: 20),
-                  title: Text(query),
+                  title: Text(query, style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),),
                   trailing: const Icon(Icons.north_west, size: 16),
                   contentPadding: EdgeInsets.zero,
                   onTap: () {

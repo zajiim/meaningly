@@ -59,7 +59,7 @@ final class WordDetailNotifierProvider
 }
 
 String _$wordDetailNotifierHash() =>
-    r'94dfd0c2546b7dc8ebee544d691a256984330cba';
+    r'103ffd03c2ffbf96f8483fed7aaa82dadf13b451';
 
 final class WordDetailNotifierFamily extends $Family
     with

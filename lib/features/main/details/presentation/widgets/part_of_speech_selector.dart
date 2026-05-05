@@ -39,7 +39,7 @@ class PartOfSpeechSelector extends StatelessWidget {
                 child: Text(
                   pos,
                   style: TextStyle(
-                    color: isSelected ? Theme.of(context).textTheme.bodyLarge?.color : Theme.of(context).primaryColor,
+                    color: isSelected ? Colors.white : Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

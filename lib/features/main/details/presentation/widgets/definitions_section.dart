@@ -57,7 +57,7 @@ class DefinitionsSection extends StatelessWidget {
                       RichText(
                         text: TextSpan(
                           style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color, fontSize: 16, height: 1.4),
-                          children: _buildHighlightedText(def.definition ?? ''),
+                          children: _buildHighlightedText(def.definition ?? '', context),
                         ),
                       ),
                       if (def.example != null) ...[
@@ -81,7 +81,7 @@ class DefinitionsSection extends StatelessWidget {
     );
   }
 
-  List<TextSpan> _buildHighlightedText(String text) {
+  List<TextSpan> _buildHighlightedText(String text, BuildContext context) {
     final List<TextSpan> spans = [];
     final RegExp regExp = RegExp(r'\((.*?)\)');
     int start = 0;
@@ -92,7 +92,7 @@ class DefinitionsSection extends StatelessWidget {
       }
       spans.add(TextSpan(
         text: '(${match.group(1)})',
-        style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.w500),
+        style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w500),
       ));
       start = match.end;
     }
