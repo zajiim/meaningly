@@ -6,16 +6,30 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'search_notifier.g.dart';
 
 @riverpod
-class SearchNotifier extends _$SearchNotifier{
+class SearchNotifier extends _$SearchNotifier {
   @override
   SearchStates build() {
+    _loadHistory();
     return const SearchInitial();
+  }
+
+  Future<void> _loadHistory() async {
+    final useCase = ref.read(getRecentSearchHistoryUseCaseProvider);
+    final result = await useCase();
+    result.fold((failure) => null, (history) {
+      // if (state is SearchInitial) {
+        state = SearchInitial(history: history);
+      // }
+    });
   }
 
   Future<void> search(String query) async {
     debugPrint('search called with: "$query"');
-    if(query.trim().isEmpty) {
-      state = const SearchInitial();
+    if (query
+        .trim()
+        .isEmpty) {
+      // state = const SearchInitial();
+      _loadHistory();
       debugPrint('search initial calles inside search"');
       return;
     }
@@ -28,14 +42,15 @@ class SearchNotifier extends _$SearchNotifier{
     debugPrint('result received >>>>>: "$result"');
 
     result.fold(
-        (failure) {
-          debugPrint('failure case $failure"');
-          state = SearchError(failure.message);
-        },
-        (results)  {
-          debugPrint('success case $results"');
-          state = SearchLoaded(results);
-        }
+          (failure) {
+        debugPrint('failure case $failure"');
+        state = SearchError(failure.message);
+      },
+          (results) {
+        debugPrint('success case $results"');
+        state = SearchLoaded(results);
+      },
     );
   }
+
 }

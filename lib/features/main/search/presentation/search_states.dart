@@ -5,7 +5,8 @@ sealed class SearchStates {
 }
 
 class SearchInitial extends SearchStates {
-  const SearchInitial();
+  final List<String> history;
+  const SearchInitial({this.history = const []});
 }
 
 class SearchLoading extends SearchStates {

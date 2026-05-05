@@ -60,6 +60,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           suffixIcon: IconButton(
             icon: const Icon(CupertinoIcons.clear, color: Colors.grey),
             onPressed: () {
+              if (_debounce?.isActive ?? false) _debounce?.cancel();
               _controller.clear();
               widget.onSearch('');
             },
