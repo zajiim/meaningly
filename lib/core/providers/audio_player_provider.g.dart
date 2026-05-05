@@ -49,7 +49,7 @@ final class AudioPlayerInstanceProvider
 }
 
 String _$audioPlayerInstanceHash() =>
-    r'0f696a343dd1cf002cfd706d6f0b471de40d6d1c';
+    r'974ca74252738814c7ff1c8047e1ee550af5810b';
 
 @ProviderFor(AudioPlayerNotifier)
 final audioPlayerProvider = AudioPlayerNotifierProvider._();
@@ -84,7 +84,7 @@ final class AudioPlayerNotifierProvider
 }
 
 String _$audioPlayerNotifierHash() =>
-    r'6341a1382eacfbd455ac2fc64e3c0568ed16bfa7';
+    r'09a38e6bc15dfa84cdea273f7abaf992cffd99a4';
 
 abstract class _$AudioPlayerNotifier extends $Notifier<void> {
   void build();

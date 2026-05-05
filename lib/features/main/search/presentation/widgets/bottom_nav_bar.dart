@@ -18,10 +18,12 @@ class BottomNavBar extends StatelessWidget {
       body: navigationShell,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: navigationShell.currentIndex,
-          // onTap: (index) => _onTap(index),
+        type: BottomNavigationBarType.fixed,
+        // onTap: (index) => _onTap(index),
           onTap: _onTap,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.collections), label: 'Collections'),
             BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: 'Bookmarks'),
             BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
           ],

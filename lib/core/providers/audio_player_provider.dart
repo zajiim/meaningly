@@ -7,7 +7,10 @@ part 'audio_player_provider.g.dart';
 @riverpod
 AudioPlayer audioPlayerInstance(Ref ref) {
   final player = AudioPlayer();
-  ref.onDispose(() => player.dispose());
+  ref.onDispose(() {
+    player.stop();
+    player.dispose();
+  });
   return player;
 }
 

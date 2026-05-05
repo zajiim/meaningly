@@ -63,10 +63,10 @@ class WordDetailPage extends ConsumerWidget {
                               wordDetailProvider(initialPartOfSpeech).notifier,
                             )
                             .playAudio(
-                          "https://api.dictionaryapi.dev/media/pronunciations/en/war-uk.mp3"
-                              // audioUrl.startsWith('//')
-                              //     ? 'https:$audioUrl'
-                              //     : audioUrl,
+                          // "https://api.dictionaryapi.dev/media/pronunciations/en/war-uk.mp3"
+                              audioUrl.startsWith('//')
+                                  ? 'https:$audioUrl'
+                                  : audioUrl,
                             );
                       }
                     },

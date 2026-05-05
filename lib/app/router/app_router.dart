@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:meaningly/app/router/route_names.dart';
 import 'package:meaningly/features/main/bookmarks/presentation/bookmarks_screen.dart';
+import 'package:meaningly/features/main/collections/presentation/collections_screen.dart';
 import 'package:meaningly/features/main/search/data/models/dictionary_word_model.dart';
 import 'package:meaningly/features/main/search/domain/entities/dictionary_word_entity.dart';
 import 'package:meaningly/features/main/search/presentation/search_page.dart';
@@ -43,6 +44,15 @@ GoRouter appRouter(Ref ref) {
                 path: '/home',
                 name: RouteNames.home,
                 builder: (context, state) => const SearchPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/collections',
+                name: RouteNames.collections,
+                builder: (context, state) => const CollectionsScreen(),
               ),
             ],
           ),

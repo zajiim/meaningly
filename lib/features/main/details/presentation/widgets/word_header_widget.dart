@@ -17,9 +17,14 @@ class WordHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // String? audioUrl = word.phonetics
+    //     ?.firstWhere((p) => p.audio!.isNotEmpty, orElse: () => const Phonetic())
+    //     .audio;
     String? audioUrl = word.phonetics
-        ?.firstWhere((p) => p.audio!.isNotEmpty, orElse: () => const Phonetic())
-        .audio;
+        ?.firstWhere(
+          (p) => p.audio != null && p.audio!.isNotEmpty,
+          orElse: () => const Phonetic(),
+        ).audio;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
