@@ -13,10 +13,10 @@ part of 'word_detail_notifier.dart';
 final wordDetailProvider = WordDetailNotifierFamily._();
 
 final class WordDetailNotifierProvider
-    extends $NotifierProvider<WordDetailNotifier, WordDetailStates> {
+    extends $AsyncNotifierProvider<WordDetailNotifier, WordDetailStates> {
   WordDetailNotifierProvider._({
     required WordDetailNotifierFamily super.from,
-    required String super.argument,
+    required (String, String) super.argument,
   }) : super(
          retry: null,
          name: r'wordDetailProvider',
@@ -32,20 +32,12 @@ final class WordDetailNotifierProvider
   String toString() {
     return r'wordDetailProvider'
         ''
-        '($argument)';
+        '$argument';
   }
 
   @$internal
   @override
   WordDetailNotifier create() => WordDetailNotifier();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(WordDetailStates value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<WordDetailStates>(value),
-    );
-  }
 
   @override
   bool operator ==(Object other) {
@@ -59,16 +51,16 @@ final class WordDetailNotifierProvider
 }
 
 String _$wordDetailNotifierHash() =>
-    r'103ffd03c2ffbf96f8483fed7aaa82dadf13b451';
+    r'924224a70ece544c0c19df0c518313103dd6c1af';
 
 final class WordDetailNotifierFamily extends $Family
     with
         $ClassFamilyOverride<
           WordDetailNotifier,
+          AsyncValue<WordDetailStates>,
           WordDetailStates,
-          WordDetailStates,
-          WordDetailStates,
-          String
+          FutureOr<WordDetailStates>,
+          (String, String)
         > {
   WordDetailNotifierFamily._()
     : super(
@@ -79,30 +71,35 @@ final class WordDetailNotifierFamily extends $Family
         isAutoDispose: true,
       );
 
-  WordDetailNotifierProvider call(String initialPartOfSpeech) =>
-      WordDetailNotifierProvider._(argument: initialPartOfSpeech, from: this);
+  WordDetailNotifierProvider call(String word, String initialPartOfSpeech) =>
+      WordDetailNotifierProvider._(
+        argument: (word, initialPartOfSpeech),
+        from: this,
+      );
 
   @override
   String toString() => r'wordDetailProvider';
 }
 
-abstract class _$WordDetailNotifier extends $Notifier<WordDetailStates> {
-  late final _$args = ref.$arg as String;
-  String get initialPartOfSpeech => _$args;
+abstract class _$WordDetailNotifier extends $AsyncNotifier<WordDetailStates> {
+  late final _$args = ref.$arg as (String, String);
+  String get word => _$args.$1;
+  String get initialPartOfSpeech => _$args.$2;
 
-  WordDetailStates build(String initialPartOfSpeech);
+  FutureOr<WordDetailStates> build(String word, String initialPartOfSpeech);
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<WordDetailStates, WordDetailStates>;
+    final ref =
+        this.ref as $Ref<AsyncValue<WordDetailStates>, WordDetailStates>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<WordDetailStates, WordDetailStates>,
-              WordDetailStates,
+              AnyNotifier<AsyncValue<WordDetailStates>, WordDetailStates>,
+              AsyncValue<WordDetailStates>,
               Object?,
               Object?
             >;
-    element.handleCreate(ref, () => build(_$args));
+    element.handleCreate(ref, () => build(_$args.$1, _$args.$2));
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fpdart/src/either.dart';
 import 'package:meaningly/core/error/failure.dart';
 
-import '../../../collections/data/mappers/dictionary_mapper.dart';
+import '../../../collections/data/mappers/dictionary_collection_mapper.dart';
 import '../../domain/entities/dictionary_word_entity.dart';
 import '../../domain/repository/dictionary_repository.dart';
 import '../datasources/local/local_dictionary_data_source.dart';

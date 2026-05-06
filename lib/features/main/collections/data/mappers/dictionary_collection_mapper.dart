@@ -2,7 +2,7 @@
 
 import '../../../search/domain/entities/dictionary_word_entity.dart';
 
-extension OfflineMapping on String {
+extension DictionaryCollectionMapper on String {
   DictionaryWordEntity toEntityFromOffline(String word) {
     return DictionaryWordEntity(
       word: word,

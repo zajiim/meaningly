@@ -2,3 +2,5 @@ const String appName = "Meaningly";
 const String baseUrl = "https://api.dictionaryapi.dev";
 const String dbName = "meaningly.db";
 const String cachedWordsTableName = "cached_words";
+const String recentSearchTableName = "recent_searches";
+const String bookmarksTableName = "bookmarked_words";

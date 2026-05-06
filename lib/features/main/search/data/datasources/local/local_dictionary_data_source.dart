@@ -41,7 +41,8 @@ class LocalDictionaryDataSourceImpl implements LocalDictionaryDataSource {
   Future<List<DictionaryWordModel>?> getCachedWord(String query) async {
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps = await db.query(
-      'cached_words',
+      // 'cached_words',
+      cachedWordsTableName,
       where: 'word = ?',
       whereArgs: [query.toLowerCase()],
     );
@@ -58,7 +59,8 @@ class LocalDictionaryDataSourceImpl implements LocalDictionaryDataSource {
   Future<List<String>> getRecentSearchHistories() async{
     final db = await _databaseService.database;
     final List<Map<String, dynamic>> maps = await db.query(
-      'recent_searches',
+      // 'recent_searches',
+      recentSearchTableName,
       orderBy: 'created_at DESC',
     );
 
@@ -72,36 +74,23 @@ class LocalDictionaryDataSourceImpl implements LocalDictionaryDataSource {
 
     await db.transaction((txn) async {
       await txn.delete(
-        'recent_searches',
+        recentSearchTableName,
         where: 'query = ?',
         whereArgs: [query.toLowerCase()],
       );
 
       await txn.insert(
-        'recent_searches',
+        recentSearchTableName,
         {
           'query': query.toLowerCase(),
           'created_at': DateTime.now().millisecondsSinceEpoch,
         },
       );
-
-      // Keep only last 10 searches
-      final count = Sqflite.firstIntValue(await txn.rawQuery('SELECT COUNT(*) FROM recent_searches'));
-      if (count != null && count > 10) {
-        await txn.rawDelete('''
-          DELETE FROM recent_searches 
-          WHERE id IN (
-            SELECT id FROM recent_searches 
-            ORDER BY created_at ASC 
-            LIMIT ?
-          )
-        ''', [count - 10]);
-      }
     });
   }
   @override
   Future<void> clearRecentSearchHistory() async {
     final db = await _databaseService.database;
-    await db.delete('recent_searches');
+    await db.delete(recentSearchTableName);
   }
 }

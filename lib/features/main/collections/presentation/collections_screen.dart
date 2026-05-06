@@ -6,7 +6,7 @@ import 'package:meaningly/features/main/collections/presentation/providers/bundl
 import '../../../../app/router/route_names.dart';
 import '../../search/domain/entities/dictionary_word_entity.dart';
 import '../../search/presentation/widgets/search_bar_widget.dart';
-import '../data/mappers/dictionary_mapper.dart';
+import '../data/mappers/dictionary_collection_mapper.dart';
 
 class CollectionsScreen extends ConsumerStatefulWidget {
   const CollectionsScreen({super.key});

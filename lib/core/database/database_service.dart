@@ -27,7 +27,7 @@ class DatabaseService {
 
 Future<void> _onCreate(Database db, int version) async {
   await db.execute('''
-      CREATE TABLE recent_searches (
+      CREATE TABLE $recentSearchTableName (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       query TEXT UNIQUE,
       created_at INTEGER
@@ -35,9 +35,17 @@ Future<void> _onCreate(Database db, int version) async {
   ''');
 
   await db.execute('''
-      CREATE TABLE cached_words (
+      CREATE TABLE $cachedWordsTableName (
         word TEXT PRIMARY KEY,
         data TEXT
+      )
+    ''');
+
+  await db.execute('''
+      CREATE TABLE $bookmarksTableName (
+        word TEXT PRIMARY KEY,
+        data TEXT,
+        created_at INTEGER
       )
     ''');
 }
