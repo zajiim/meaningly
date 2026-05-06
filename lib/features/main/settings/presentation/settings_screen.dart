@@ -7,16 +7,19 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            SettingsItem(
-              icon: Icons.shopping_bag_outlined,
-              title: "Night mode",
-              onTap: () {},
-            ),
-          ]
+      appBar: AppBar(
+        title: Text(
+          "Settings",
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+      ),
+      body: Column(
+        children: [
+          // SettingsItem(icon: Icons.dark_mode, title: "Night mode", subTitle: "Switches to darker colors", value: value, onChanged: onChanged)
+        ],
       ),
     );
   }

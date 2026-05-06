@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meaningly/features/main/bookmarks/presentation/providers/bookmark_notifier.dart';
+import 'package:meaningly/features/main/bookmarks/presentation/providers/widgets/bookmark_item_widget.dart';
 
 class BookmarksScreen extends ConsumerWidget {
   const BookmarksScreen({super.key});
@@ -58,7 +59,17 @@ class BookmarksScreen extends ConsumerWidget {
                 );
               }
 
-              return SliverToBoxAdapter(child: Text(bookmarkData.first.word ?? ""));
+              return SliverList(
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    final word = bookmarkData[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: BookmarkItemWidget(word),
+                    );
+                  },
+                    childCount: bookmarkData.length,
+                  )
+              );
             },
             error: (error, stack) => SliverFillRemaining(
               child: Center(child: Text('Error: $error')),
