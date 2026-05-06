@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fpdart/src/either.dart';
 import 'package:meaningly/core/error/failure.dart';
 
+import '../../../collections/data/mappers/dictionary_mapper.dart';
 import '../../domain/entities/dictionary_word_entity.dart';
 import '../../domain/repository/dictionary_repository.dart';
 import '../datasources/local/local_dictionary_data_source.dart';
@@ -12,9 +13,10 @@ import '../models/dictionary_word_model.dart';
 class DictionaryRepositoryImpl implements DictionaryRepository {
   final DictionaryApiService _api;
   final LocalDictionaryDataSource _local;
+  final Future<Map<String, String>> Function() _getBundledDictionary;
 
 
-  const DictionaryRepositoryImpl(this._api, this._local);
+  const DictionaryRepositoryImpl(this._api, this._local, this._getBundledDictionary);
 
   @override
   Future<Either<Failure, List<DictionaryWordEntity>>> searchWords(
@@ -43,14 +45,36 @@ class DictionaryRepositoryImpl implements DictionaryRepository {
 
         return Right(models.map((e) => e.toEntity()).toList());
         // return Right(response.body!.map((e) => e.toEntity()).toList());
-      } else if (response.statusCode == 404) {
-        return Left(Failure('No results found'));
       } else {
-        return Left(Failure('Something went wrong'));
+        // return Left(Failure('Something went wrong'));
+        return await _getOfflineFallback(query);
       }
     } on Exception catch (e) {
-      return Left(Failure('Network error $e'));
+      // final bundledDict = await _getBundledDictionary();
+      // final localDef = bundledDict[query.toLowerCase()];
+      // if (localDef != null) {
+      //   debugPrint("Returning from BUNDLED DICTIONARY for: $query");
+      //   return Right([DictionaryWordEntity.fromLocalDictionary(query.toLowerCase(), localDef)]);
+      // }
+      // return Left(Failure('Network error $e'));
+      debugPrint("API Exception: $e. Checking bundled dictionary...");
+      return await _getOfflineFallback(query);
     }
+  }
+
+  Future<Either<Failure, List<DictionaryWordEntity>>> _getOfflineFallback(String query) async {
+    final bundledDict = await _getBundledDictionary();
+    final localDef = bundledDict[query];
+
+    if (localDef != null) {
+      debugPrint("Returning from BUNDLED DICTIONARY for: $query");
+
+      final entity = localDef.toEntityFromOffline(query);
+
+      return Right([entity]);
+    }
+
+    return Left(Failure('Word not found in online or offline database.'));
   }
 
   @override

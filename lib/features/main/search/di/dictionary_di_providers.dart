@@ -7,6 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/database/database_service.dart';
+import '../../collections/presentation/providers/bundled_dictionary_provider.dart';
 import '../data/datasources/remote/dictionary_api_service.dart';
 import '../data/repository/dictionary_repository_impl.dart';
 import '../domain/repository/dictionary_repository.dart';
@@ -46,7 +47,12 @@ LocalDictionaryDataSource localDictionaryDataSource(Ref ref) {
 DictionaryRepository dictionaryRepository(Ref ref) {
   final apiService = ref.watch(dictionaryApiServiceProvider);
   final localDataSource = ref.watch(localDictionaryDataSourceProvider);
-  return DictionaryRepositoryImpl(apiService, localDataSource);
+  // return DictionaryRepositoryImpl(apiService, localDataSource);
+  return DictionaryRepositoryImpl(
+    apiService,
+    localDataSource,
+        () => ref.read(bundledDictionaryProvider.future),
+  );
 }
 
 @Riverpod(keepAlive: true)

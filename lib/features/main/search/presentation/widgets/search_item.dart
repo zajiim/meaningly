@@ -87,6 +87,7 @@ class SearchItem extends ConsumerWidget {
           itemBuilder: (context, index) {
             final word = results[index];
             return Card(
+              color: Theme.of(context).colorScheme.onSurface,
               margin: const EdgeInsets.only(bottom: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -94,7 +95,7 @@ class SearchItem extends ConsumerWidget {
               child: ListTile(
                 title: Text(
                   word.word ?? '',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyLarge?.color),
                 ),
                 subtitle: Text(word.phonetic ?? ''),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),

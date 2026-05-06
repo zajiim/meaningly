@@ -81,7 +81,6 @@ GoRouter appRouter(Ref ref) {
         name: RouteNames.details,
         builder: (context, state) {
             final word = state.extra as DictionaryWordEntity;
-            // return WordDetailsPage(word: word);
             return WordDetailPage(word);
         }
       )
