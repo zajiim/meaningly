@@ -30,6 +30,7 @@ class WordDetailPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         leading: IconButton(
           onPressed: () => context.pop(),
           icon: Icon(

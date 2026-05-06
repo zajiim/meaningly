@@ -27,6 +27,7 @@ class DictionaryRepositoryImpl implements DictionaryRepository {
 
       if (cachedWords != null && cachedWords.isNotEmpty) {
         debugPrint("Returning from CACHE for: $query");
+        await _local.saveRecentSearchHistory(query);
         return Right(cachedWords.map((e) => e.toEntity()).toList());
       }
 
@@ -68,7 +69,7 @@ class DictionaryRepositoryImpl implements DictionaryRepository {
 
     if (localDef != null) {
       debugPrint("Returning from BUNDLED DICTIONARY for: $query");
-
+      await _local.saveRecentSearchHistory(query);
       final entity = localDef.toEntityFromOffline(query);
 
       return Right([entity]);

@@ -24,9 +24,14 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: Text(
-          'Local Dictionary',
-          style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),
+          'Meaningly',
+          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).primaryColor,
+            letterSpacing: 1.2,
+          ),
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(80),
@@ -42,46 +47,45 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           ),
         ),
       ),
-      body: SafeArea(
-        child: dictionaryAsync.when(
-          data: (dictionary) {
-            final entries = dictionary.entries
-                .where((e) => e.key.toLowerCase().startsWith(_searchQuery))
-                // .take(100)
-                .toList();
-            // final entries = _searchQuery.isEmpty
-            //     ? dictionary.entries.toList()
-            //     : dictionary.entries
-            //     .where((e) => e.key.startsWith(_searchQuery))
-            //     .toList();
+      body: dictionaryAsync.when(
+        data: (dictionary) {
+          final entries = dictionary.entries
+              .where((e) => e.key.toLowerCase().startsWith(_searchQuery))
+              // .take(100)
+              .toList();
+          // final entries = _searchQuery.isEmpty
+          //     ? dictionary.entries.toList()
+          //     : dictionary.entries
+          //     .where((e) => e.key.startsWith(_searchQuery))
+          //     .toList();
 
-            if (entries.isEmpty) {
-              return const Center(child: Text("No words found."));
-            }
+          if (entries.isEmpty) {
+            return const Center(child: Text("No words found."));
+          }
 
-            return ListView.builder(
-              itemCount: entries.length,
-              itemBuilder: (context, index) {
-                final entry = entries[index];
-                return ListTile(
-                  title: Text(entry.key, style: const TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text(
-                    entry.value,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  onTap: () {
-                    // final entity = DictionaryWordEntity.fromLocalDictionary(entry.key, entry.value);
-                    final entity = entry.value.toEntityFromOffline(entry.key);
-                    context.pushNamed(RouteNames.details, extra: entity);
-                  },
-                );
-              },
-            );
-          },
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (e, st) => Center(child: Text('Error loading dictionary: $e')),
-        ),
+          return ListView.builder(
+            itemCount: entries.length,
+            itemBuilder: (context, index) {
+              final entry = entries[index];
+              return ListTile(
+                title: Text(entry.key,
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyLarge?.color)),
+                subtitle: Text(
+                  entry.value,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                onTap: () {
+                  // final entity = DictionaryWordEntity.fromLocalDictionary(entry.key, entry.value);
+                  final entity = entry.value.toEntityFromOffline(entry.key);
+                  context.pushNamed(RouteNames.details, extra: entity);
+                },
+              );
+            },
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, st) => Center(child: Text('Error loading dictionary: $e')),
       ),
     );
   }

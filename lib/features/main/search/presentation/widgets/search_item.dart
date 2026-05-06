@@ -49,7 +49,7 @@ class SearchItem extends ConsumerWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        // ref.read(searchProvider.notifier).clearHistory();
+                        ref.read(searchProvider.notifier).clearHistory();
                       },
                       child: const Text('Clear All'),
                     ),
@@ -97,7 +97,9 @@ class SearchItem extends ConsumerWidget {
                   word.word ?? '',
                   style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyLarge?.color),
                 ),
-                subtitle: Text(word.phonetic ?? ''),
+                subtitle: (word.phonetic != null && word.phonetic!.trim().isNotEmpty)
+                    ? Text(word.phonetic!)
+                    : null,
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                 onTap: () {
                   context.pushNamed(RouteNames.details, extra: word);

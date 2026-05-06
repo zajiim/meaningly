@@ -53,4 +53,10 @@ class SearchNotifier extends _$SearchNotifier {
     );
   }
 
+  Future<void> clearHistory() async {
+    final clearHistoryUseCase = ref.read(clearRecentSearchHistoryUseCaseProvider);
+    await clearHistoryUseCase();
+    state = const SearchInitial(history: []);
+  }
+
 }
