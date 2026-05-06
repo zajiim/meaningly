@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:meaningly/app/router/route_names.dart';
+import 'package:meaningly/features/onboarding/presentation/providers/onboarding_notifier.dart';
 import 'package:meaningly/features/onboarding/presentation/widgets/onboarding_content.dart';
 import 'package:meaningly/features/onboarding/presentation/widgets/onboarding_footer.dart';
 import 'package:meaningly/features/onboarding/presentation/widgets/onboarding_header.dart';
 
 import '../domain/entities/onboarding_content.dart';
 
-class OnboardingScreen extends StatefulWidget {
+class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final PageController _pageController = PageController();
   final ValueNotifier<int> _currentPageNotifier = ValueNotifier<int>(0);
 
@@ -83,7 +85,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               OnboardingFooter(
                   onNext: _nextPage,
                   onPrev: _prevPage,
-                  onGetStarted: () => context.goNamed(RouteNames.home)
+                  onGetStarted: () async {
+                    await ref.read(onboardingProvider.notifier).completeOnboarding();
+                    if(context.mounted) {
+                      context.goNamed(RouteNames.home);
+                    }
+                  }
               )
             ],
           ),

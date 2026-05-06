@@ -26,11 +26,10 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: Text(
-          'Meaningly',
-          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-            fontWeight: FontWeight.bold,
+          "Offline Data",
+          style: TextStyle(
             color: Theme.of(context).primaryColor,
-            letterSpacing: 1.2,
+            fontWeight: FontWeight.bold,
           ),
         ),
         bottom: PreferredSize(

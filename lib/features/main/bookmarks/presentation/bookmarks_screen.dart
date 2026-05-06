@@ -34,7 +34,7 @@ class BookmarksScreen extends ConsumerWidget {
                         Icon(
                           Icons.bookmark_outline,
                           size: 80,
-                          color: Colors.grey.withOpacity(0.3),
+                          color: Colors.grey.withValues(alpha: 0.3),
                         ),
                         const SizedBox(height: 16),
                         Text(

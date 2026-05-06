@@ -7,6 +7,7 @@ import 'package:meaningly/features/main/search/domain/entities/dictionary_word_e
 import 'package:meaningly/features/main/search/presentation/search_page.dart';
 import 'package:meaningly/features/main/settings/presentation/settings_screen.dart';
 import 'package:meaningly/features/onboarding/presentation/onboarding_screen.dart';
+import 'package:meaningly/features/onboarding/presentation/providers/onboarding_notifier.dart';
 import 'package:path/path.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -18,9 +19,21 @@ part 'app_router.g.dart';
 
 @riverpod
 GoRouter appRouter(Ref ref) {
+  final hasCompletedOnboarding = ref.watch(onboardingProvider);
   return GoRouter(
     initialLocation: '/',
     debugLogDiagnostics: true,
+    redirect: (context, state) {
+      final isSplash = state.matchedLocation == '/';
+      final isOnboarding = state.matchedLocation == '/onboarding';
+      if(isSplash) {
+        return hasCompletedOnboarding ? '/home' : '/onboarding';
+      }
+      if (isOnboarding && hasCompletedOnboarding) {
+        return '/home';
+      }
+      return null;
+    },
     routes: [
       GoRoute(
         path: '/',
