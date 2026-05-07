@@ -17,121 +17,128 @@ class WordDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final initialPartOfSpeech = word.meanings?.first.partOfSpeech ?? '';
-    // final state = ref.watch(wordDetailProvider(initialPartOfSpeech));
-    final asyncState =
-    ref.watch(wordDetailProvider(word.word ?? '', initialPartOfSpeech));
+    final asyncState = ref.watch(
+      wordDetailProvider(word.word ?? '', initialPartOfSpeech),
+    );
 
-
+    debugPrint(word.meanings?.first.definitions?.first.definition);
 
     return asyncState.when(
-        data: (state) {
-          if (state is! WordDetailData) {
-            return const Scaffold(body: Center(child: CircularProgressIndicator()));
-          }
-          final currentMeaning = word.meanings?.firstWhere(
-                (m) => m.partOfSpeech == state.selectedPartOfSpeech,
-            orElse: () => word.meanings!.first,
+      data: (state) {
+        if (state is! WordDetailData) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
           );
+        }
+        final currentMeaning = word.meanings?.firstWhere(
+          (m) => m.partOfSpeech == state.selectedPartOfSpeech,
+          orElse: () => word.meanings!.first,
+        );
 
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              leading: IconButton(
-                onPressed: () => context.pop(),
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            leading: IconButton(
+              onPressed: () => context.pop(),
+              icon: Icon(
+                Icons.arrow_back_ios,
+                size: 18,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  ref
+                      .read(
+                        wordDetailProvider(
+                          word.word ?? '',
+                          initialPartOfSpeech,
+                        ).notifier,
+                      )
+                      .toggleBookmark(word);
+                },
                 icon: Icon(
-                  Icons.arrow_back_ios,
-                  size: 18,
+                  state.isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                   color: Theme.of(context).primaryColor,
                 ),
               ),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    ref.read(
-                      wordDetailProvider(word.word ?? '', initialPartOfSpeech).notifier,
-                    ).toggleBookmark(word);
-                  },
-                  icon: Icon(
-                    state.isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                    color: Theme.of(context).primaryColor,
+              const SizedBox(width: 8),
+            ],
+          ),
+          body: CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                sliver: SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      WordHeaderWidget(
+                        word: word,
+                        isPlaying: state.isPlaying,
+                        onPlay: () {
+                          final audioUrl = word.phonetics
+                              ?.firstWhere(
+                                (p) => p.audio != null && p.audio!.isNotEmpty,
+                                orElse: () => const Phonetic(),
+                              )
+                              .audio;
+                          if (audioUrl != null) {
+                            ref
+                                .read(
+                                  wordDetailProvider(
+                                    word.word ?? '',
+                                    initialPartOfSpeech,
+                                  ).notifier,
+                                )
+                                .playAudio(
+                                  audioUrl.startsWith('//')
+                                      ? 'https:$audioUrl'
+                                      : audioUrl,
+                                );
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      if (word.meanings != null && word.meanings!.isNotEmpty)
+                        PartOfSpeechSelector(
+                          partsOfSpeech: word.meanings!
+                              .map((m) => m.partOfSpeech ?? '')
+                              .toList(),
+                          selected: state.selectedPartOfSpeech,
+                          onSelected: (pos) => ref
+                              .read(
+                                wordDetailProvider(
+                                  word.word ?? '',
+                                  initialPartOfSpeech,
+                                ).notifier,
+                              )
+                              .updateSelectedPartOfSpeech(pos),
+                        ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 8),
-              ],
-            ),
-            body: CustomScrollView(
-              slivers: [
+              ),
+
+              const SliverToBoxAdapter(child: SizedBox(height: 32)),
+
+              if (currentMeaning != null)
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
-                  sliver: SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        WordHeaderWidget(
-                          word: word,
-                          isPlaying: state.isPlaying,
-                          onPlay: () {
-                            final audioUrl = word.phonetics
-                                ?.firstWhere(
-                                  (p) => p.audio != null && p.audio!.isNotEmpty,
-                              orElse: () => const Phonetic(),
-                            )
-                                .audio;
-                            if (audioUrl != null) {
-                              ref.read(
-                                wordDetailProvider(word.word ?? '', initialPartOfSpeech).notifier,
-                              )
-                                  .playAudio(
-                                // "https://api.dictionaryapi.dev/media/pronunciations/en/war-uk.mp3"
-                                audioUrl.startsWith('//')
-                                    ? 'https:$audioUrl'
-                                    : audioUrl,
-                              );
-                            }
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                        if (word.meanings != null && word.meanings!.isNotEmpty)
-                          PartOfSpeechSelector(
-                            partsOfSpeech: word.meanings!
-                                .map((m) => m.partOfSpeech ?? '')
-                                .toList(),
-                            selected: state.selectedPartOfSpeech,
-                            onSelected: (pos) => ref
-                                .read(
-                              wordDetailProvider(word.word ?? '', initialPartOfSpeech).notifier,
-                            )
-                                .updateSelectedPartOfSpeech(pos),
-                          ),
-                      ],
-                    ),
+                  sliver: DefinitionsSection(
+                    definitions: currentMeaning.definitions ?? [],
                   ),
                 ),
 
-                const SliverToBoxAdapter(child: SizedBox(height: 32)),
-
-                if (currentMeaning != null)
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    sliver: DefinitionsSection(
-                      definitions: currentMeaning.definitions ?? [],
-                    ),
-                  ),
-
-                const SliverToBoxAdapter(child: SizedBox(height: 32)),
-              ],
-            ),
-          );
-
-        },
-        error: (e, s) => Scaffold(
-          body: Center(child: Text('Error: $e')),
-        ),
-        loading: () => const Scaffold(
-          body: Center(child: CircularProgressIndicator()),
-        )
+              const SliverToBoxAdapter(child: SizedBox(height: 32)),
+            ],
+          ),
+        );
+      },
+      error: (e, s) => Scaffold(body: Center(child: Text('Error: $e'))),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
     );
-
-
   }
 }

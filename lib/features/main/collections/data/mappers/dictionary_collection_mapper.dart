@@ -1,4 +1,3 @@
-// inside your mappers file
 
 import '../../../search/domain/entities/dictionary_word_entity.dart';
 

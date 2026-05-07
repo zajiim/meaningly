@@ -24,7 +24,8 @@ class WordHeaderWidget extends StatelessWidget {
         ?.firstWhere(
           (p) => p.audio != null && p.audio!.isNotEmpty,
           orElse: () => const Phonetic(),
-        ).audio;
+        )
+        .audio;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,9 +43,17 @@ class WordHeaderWidget extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                word.phonetic ??
-                    word.phonetics?.firstWhere((p) => p.text != null).text ??
+                // word.phonetic ??
+                //     word.phonetics?.firstWhere((p) => p.text != null).text ??
+                //     '',
+                word.phonetics
+                        ?.firstWhere(
+                          (p) => p.text != null,
+                          orElse: () => const Phonetic(),
+                        )
+                        .text ??
                     '',
+
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.w500,

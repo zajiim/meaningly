@@ -4,7 +4,7 @@ import 'package:audioplayers/audioplayers.dart';
 
 part 'audio_player_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 AudioPlayer audioPlayerInstance(Ref ref) {
   final player = AudioPlayer();
   ref.onDispose(() {
@@ -14,7 +14,7 @@ AudioPlayer audioPlayerInstance(Ref ref) {
   return player;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class AudioPlayerNotifier extends _$AudioPlayerNotifier {
   @override
   void build() {}
