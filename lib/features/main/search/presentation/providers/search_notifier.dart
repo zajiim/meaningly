@@ -18,23 +18,21 @@ class SearchNotifier extends _$SearchNotifier {
     final result = await useCase();
     result.fold((failure) => null, (history) {
       // if (state is SearchInitial) {
-        state = SearchInitial(history: history);
+      state = SearchInitial(history: history);
       // }
     });
   }
 
   Future<void> search(String query) async {
     debugPrint('search called with: "$query"');
-    if (query
-        .trim()
-        .isEmpty) {
+    if (query.trim().isEmpty) {
       // state = const SearchInitial();
       _loadHistory();
       debugPrint('search initial calles inside search"');
       return;
     }
 
-    state = const SearchLoading();
+    state = SearchLoading(query: query);
     debugPrint('search loadingg...');
 
     final useCase = ref.read(searchWordsUseCaseProvider);
@@ -42,21 +40,22 @@ class SearchNotifier extends _$SearchNotifier {
     debugPrint('result received >>>>>: "$result"');
 
     result.fold(
-          (failure) {
+      (failure) {
         debugPrint('failure case $failure"');
-        state = SearchError(failure.message);
+        state = SearchError(failure.message, query: query);
       },
-          (results) {
+      (results) {
         debugPrint('success case $results"');
-        state = SearchLoaded(results);
+        state = SearchLoaded(results, query: query);
       },
     );
   }
 
   Future<void> clearHistory() async {
-    final clearHistoryUseCase = ref.read(clearRecentSearchHistoryUseCaseProvider);
+    final clearHistoryUseCase = ref.read(
+      clearRecentSearchHistoryUseCaseProvider,
+    );
     await clearHistoryUseCase();
     state = const SearchInitial(history: []);
   }
-
 }
