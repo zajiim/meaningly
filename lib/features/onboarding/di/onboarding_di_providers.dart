@@ -1,4 +1,5 @@
 
+import 'package:meaningly/core/providers/shared_preferences_provider.dart';
 import 'package:meaningly/features/onboarding/data/repositories/onboarding_repository_impl.dart';
 import 'package:meaningly/features/onboarding/domain/usecases/complete_onboarding_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -11,19 +12,9 @@ import '../domain/usecases/check_onboarding_use_case.dart';
 part 'onboarding_di_providers.g.dart';
 
 
-//
-// @riverpod
-// Future<SharedPreferences> sharedPreferences(Ref ref) => SharedPreferences.getInstance();
-
-
-@Riverpod(keepAlive: true)
-SharedPreferences sharedPreferences(Ref ref) {
-  throw UnimplementedError('sharedPreferences must be overridden');
-}
-
 @Riverpod(keepAlive: true)
 LocalOnboardingDataSource localOnboardingDataSource(Ref ref) {
-  final prefs = ref.watch(sharedPreferencesProvider);
+  final prefs = ref.watch(sharedPrefsProvider);
   return LocalOnboardingDataSourceImpl(prefs);
 }
 
