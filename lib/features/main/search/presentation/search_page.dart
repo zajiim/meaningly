@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meaningly/core/network/connectivity_provider.dart';
+import 'package:meaningly/features/main/search/presentation/providers/connectivity_banner_notifier.dart';
 import 'package:meaningly/features/main/search/presentation/providers/search_notifier.dart';
 import 'package:meaningly/features/main/search/presentation/search_states.dart';
+import 'package:meaningly/features/main/search/presentation/widgets/connectivity_banner.dart';
 import 'package:meaningly/features/main/search/presentation/widgets/search_bar_widget.dart';
 import 'package:meaningly/features/main/search/presentation/widgets/search_item.dart';
 
@@ -10,6 +13,7 @@ class SearchPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final bannerState = ref.watch(connectivityBannerProvider);
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -42,7 +46,18 @@ class SearchPage extends ConsumerWidget {
                         ref.read(searchProvider.notifier).search(query);
                       },
                     ),
-                    const SizedBox(height: 24),
+                    // AnimatedSize(
+                    //   duration: const Duration(milliseconds: 300),
+                    //   curve: Curves.easeInOut,
+                    //   child: bannerState == BannerState.hidden
+                    //       ? const SizedBox.shrink()
+                    //       : Padding(
+                    //     padding: const EdgeInsets.only(top: 12),
+                    //     child: ConnectivityBanner(
+                    //       isOnline: bannerState == BannerState.restored,
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
