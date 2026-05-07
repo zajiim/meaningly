@@ -1,3 +1,4 @@
+import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meaningly/core/network/connectivity_provider.dart';
@@ -42,7 +43,10 @@ class SearchPage extends ConsumerWidget {
                     ),
                     const SizedBox(height: 48),
                     SearchBarWidget(
-                      onSearch: (query) {
+                      onChanged: (query) {
+                        ref.read(searchProvider.notifier).getSuggestions(query);
+                      },
+                      onSubmitted: (query) {
                         ref.read(searchProvider.notifier).search(query);
                       },
                     ),

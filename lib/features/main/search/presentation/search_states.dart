@@ -16,6 +16,12 @@ class SearchLoading extends SearchStates {
   const SearchLoading({required super.query});
 }
 
+class SearchSuggestionsLoaded extends SearchStates {
+  final List<String> suggestions;
+
+  const SearchSuggestionsLoaded(this.suggestions, {required super.query});
+}
+
 class SearchLoaded extends SearchStates {
   final List<DictionaryWordEntity> results;
 

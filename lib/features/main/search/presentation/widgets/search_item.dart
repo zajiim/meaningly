@@ -13,68 +13,79 @@ class SearchItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(searchProvider);
     return switch (state) {
-      SearchInitial(history: final history) => history.isEmpty
-          ? SliverFillRemaining(
-        hasScrollBody: false,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.search, size: 64, color: Colors.grey.shade300),
-              const SizedBox(height: 16),
-              Text(
-                'Start searching for words!',
-                style: TextStyle(color: Colors.grey.shade500),
-              ),
-            ],
-          ),
-        ),
-      )
-          : SliverPadding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        sliver: SliverMainAxisGroup(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Recent Searches',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey.shade700,
+      SearchInitial(history: final history) =>
+        history.isEmpty
+            ? SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.search, size: 64, color: Colors.grey.shade300),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Start searching for words!',
+                        style: TextStyle(color: Colors.grey.shade500),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            : SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                sliver: SliverMainAxisGroup(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Recent Searches',
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey.shade700,
+                                  ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                ref
+                                    .read(searchProvider.notifier)
+                                    .clearHistory();
+                              },
+                              child: const Text('Clear All'),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        ref.read(searchProvider.notifier).clearHistory();
+                    SliverList.builder(
+                      itemCount: history.length,
+                      itemBuilder: (context, index) {
+                        final query = history[index];
+                        return ListTile(
+                          leading: const Icon(Icons.history, size: 20),
+                          title: Text(
+                            query,
+                            style: TextStyle(
+                              color: Theme.of(
+                                context,
+                              ).textTheme.bodyLarge?.color,
+                            ),
+                          ),
+                          trailing: const Icon(Icons.north_west, size: 16),
+                          contentPadding: EdgeInsets.zero,
+                          onTap: () {
+                            ref.read(searchProvider.notifier).search(query);
+                          },
+                        );
                       },
-                      child: const Text('Clear All'),
                     ),
                   ],
                 ),
               ),
-            ),
-            SliverList.builder(
-              itemCount: history.length,
-              itemBuilder: (context, index) {
-                final query = history[index];
-                return ListTile(
-                  leading: const Icon(Icons.history, size: 20),
-                  title: Text(query, style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),),
-                  trailing: const Icon(Icons.north_west, size: 16),
-                  contentPadding: EdgeInsets.zero,
-                  onTap: () {
-                    ref.read(searchProvider.notifier).search(query);
-                  },
-                );
-              },
-            ),
-          ],
-        ),
-      ),
 
       SearchLoading() => const SliverFillRemaining(
         hasScrollBody: false,
@@ -95,9 +106,13 @@ class SearchItem extends ConsumerWidget {
               child: ListTile(
                 title: Text(
                   word.word ?? '',
-                  style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyLarge?.color),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
                 ),
-                subtitle: (word.phonetic != null && word.phonetic!.trim().isNotEmpty)
+                subtitle:
+                    (word.phonetic != null && word.phonetic!.trim().isNotEmpty)
                     ? Text(word.phonetic!)
                     : null,
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
@@ -119,7 +134,29 @@ class SearchItem extends ConsumerWidget {
           ),
         ),
       ),
+      SearchSuggestionsLoaded(suggestions: final suggestions) => SliverPadding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        sliver: SliverList.builder(
+          itemCount: suggestions.length,
+          itemBuilder: (context, index) {
+            final suggestion = suggestions[index];
+            return ListTile(
+              leading: const Icon(Icons.search, size: 20),
+              title: Text(
+                suggestion,
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
+                ),
+              ),
+              trailing: const Icon(Icons.north_west, size: 16),
+              contentPadding: EdgeInsets.zero,
+              onTap: () {
+                ref.read(searchProvider.notifier).search(suggestion);
+              },
+            );
+          },
+        ),
+      ),
     };
   }
 }
-

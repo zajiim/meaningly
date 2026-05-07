@@ -23,6 +23,24 @@ class SearchNotifier extends _$SearchNotifier {
     });
   }
 
+  Future<void> getSuggestions(String query) async {
+    if (query.trim().isEmpty) {
+      _loadHistory();
+      return;
+    }
+
+    final useCase = ref.read(getSearchSuggestionsUseCaseProvider);
+    final result = await useCase(query);
+
+    result.fold(
+          (failure) {},
+          (suggestions) {
+        state = SearchSuggestionsLoaded(suggestions, query: query);
+      },
+    );
+
+  }
+
   Future<void> search(String query) async {
     debugPrint('search called with: "$query"');
     if (query.trim().isEmpty) {

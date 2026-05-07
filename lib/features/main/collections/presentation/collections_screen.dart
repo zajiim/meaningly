@@ -37,7 +37,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: SearchBarWidget(
-              onSearch: (query) {
+              onSubmitted: (query) {
                 setState(() {
                   _searchQuery = query.toLowerCase();
                 });

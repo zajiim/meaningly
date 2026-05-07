@@ -56,7 +56,7 @@ class DefinitionsSection extends StatelessWidget {
                     children: [
                       RichText(
                         text: TextSpan(
-                          style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color, fontSize: 16, height: 1.4),
+                          style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color, fontSize: 16),
                           children: _buildHighlightedText(def.definition ?? '', context),
                         ),
                       ),

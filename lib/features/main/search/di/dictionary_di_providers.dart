@@ -2,6 +2,7 @@ import 'package:chopper/chopper.dart';
 import 'package:meaningly/features/main/search/data/datasources/local/local_dictionary_data_source.dart';
 import 'package:meaningly/features/main/search/domain/usecases/clear_recent_search_history_use_case.dart';
 import 'package:meaningly/features/main/search/domain/usecases/get_recent_search_history_use_case.dart';
+import 'package:meaningly/features/main/search/domain/usecases/get_search_suggestions_use_case.dart';
 import 'package:meaningly/features/main/search/domain/usecases/search_words_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -59,6 +60,12 @@ DictionaryRepository dictionaryRepository(Ref ref) {
 SearchWordsUseCase searchWordsUseCase(Ref ref) {
   final repository = ref.watch(dictionaryRepositoryProvider);
   return SearchWordsUseCase(repository);
+}
+
+@Riverpod(keepAlive: true)
+GetSearchSuggestionsUseCase getSearchSuggestionsUseCase(Ref ref) {
+  final repository = ref.watch(dictionaryRepositoryProvider);
+  return GetSearchSuggestionsUseCase(repository);
 }
 
 

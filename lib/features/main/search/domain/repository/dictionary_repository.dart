@@ -8,4 +8,5 @@ abstract class DictionaryRepository {
   Future<Either<Failure, List<String>>> getRecentSearchHistory();
   Future<void> saveRecentSearchHistory(String query);
   Future<void> clearRecentSearchHistory();
+  Future<Either<Failure, List<String>>> getSearchSuggestions(String query);
 }

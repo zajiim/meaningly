@@ -97,4 +97,21 @@ class DictionaryRepositoryImpl implements DictionaryRepository {
   Future<void> saveRecentSearchHistory(String query) async {
     await _local.saveRecentSearchHistory(query);
   }
+
+  @override
+  Future<Either<Failure, List<String>>> getSearchSuggestions(String query) async {
+    try {
+      final bundledDict = await _getBundledDictionary();
+      final lowercaseQuery = query.toLowerCase();
+
+      final suggestions = bundledDict.keys
+          .where((key) => key.startsWith(lowercaseQuery))
+          .take(20)
+          .toList();
+
+      return Right(suggestions);
+    } catch (e) {
+      return Left(Failure('Failed to get suggestions: $e'));
+    }
+  }
 }

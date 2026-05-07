@@ -284,6 +284,55 @@ final class SearchWordsUseCaseProvider
 String _$searchWordsUseCaseHash() =>
     r'4b13817985328cbf1c386085ee293f7f7723fe25';
 
+@ProviderFor(getSearchSuggestionsUseCase)
+final getSearchSuggestionsUseCaseProvider =
+    GetSearchSuggestionsUseCaseProvider._();
+
+final class GetSearchSuggestionsUseCaseProvider
+    extends
+        $FunctionalProvider<
+          GetSearchSuggestionsUseCase,
+          GetSearchSuggestionsUseCase,
+          GetSearchSuggestionsUseCase
+        >
+    with $Provider<GetSearchSuggestionsUseCase> {
+  GetSearchSuggestionsUseCaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'getSearchSuggestionsUseCaseProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$getSearchSuggestionsUseCaseHash();
+
+  @$internal
+  @override
+  $ProviderElement<GetSearchSuggestionsUseCase> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  GetSearchSuggestionsUseCase create(Ref ref) {
+    return getSearchSuggestionsUseCase(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(GetSearchSuggestionsUseCase value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<GetSearchSuggestionsUseCase>(value),
+    );
+  }
+}
+
+String _$getSearchSuggestionsUseCaseHash() =>
+    r'314dbe59a5013e7bc53b80a5406b13a05dd3d0f1';
+
 @ProviderFor(getRecentSearchHistoryUseCase)
 final getRecentSearchHistoryUseCaseProvider =
     GetRecentSearchHistoryUseCaseProvider._();

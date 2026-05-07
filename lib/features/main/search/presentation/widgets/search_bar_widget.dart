@@ -6,9 +6,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meaningly/features/main/search/presentation/providers/search_notifier.dart';
 
 class SearchBarWidget extends ConsumerStatefulWidget {
-  final Function(String) onSearch;
+  final Function(String)? onChanged;
+  final Function(String) onSubmitted;
 
-  const SearchBarWidget({super.key, required this.onSearch});
+  const SearchBarWidget({super.key, this.onChanged, required this.onSubmitted});
 
   @override
   ConsumerState<SearchBarWidget> createState() => _SearchBarWidgetState();
@@ -21,13 +22,15 @@ class _SearchBarWidgetState extends ConsumerState<SearchBarWidget> {
   void _onSearchChanged(String query) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
-      widget.onSearch(query);
+      if (widget.onChanged != null) {
+        widget.onChanged!(query);
+      }
     });
   }
 
   void _onSubmit(String query) {
     if (query.isNotEmpty) {
-      widget.onSearch(query);
+      widget.onSubmitted(query);
     }
   }
 
@@ -74,15 +77,20 @@ class _SearchBarWidgetState extends ConsumerState<SearchBarWidget> {
           prefixIcon: const Icon(CupertinoIcons.search, color: Colors.grey),
           suffixIcon: hasText
               ? IconButton(
-            icon: const Icon(CupertinoIcons.clear),
-            onPressed: () {
-              _controller.clear();
-              widget.onSearch('');
-            },
-          )
+                  icon: const Icon(CupertinoIcons.clear),
+                  onPressed: () {
+                    _controller.clear();
+                    if (widget.onChanged != null) {
+                      widget.onChanged!('');
+                    }
+                  },
+                )
               : null,
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 16,
+          ),
         ),
       ),
     );
