@@ -16,10 +16,10 @@ class SplashInitialization extends _$SplashInitialization {
   Future<SplashStatus> _initialize() async {
     try {
       debugPrint("Splash initialization started");
-      final minDurationFuture = Future.delayed(const Duration(seconds: 2));
-      final loadFuture = ref.read(splashDictionaryProvider.future);
-      debugPrint("waiting for futures");
-      await Future.wait([minDurationFuture, loadFuture]);
+      final splashStopwatch = Stopwatch()..start();
+      await ref.read(splashDictionaryProvider.future);
+      splashStopwatch.stop();
+      debugPrint('Dictionary fully ready in ${splashStopwatch.elapsedMilliseconds}ms',);
       debugPrint("loadFuture completed");
       return SplashStatus.loaded;
     } catch (e) {

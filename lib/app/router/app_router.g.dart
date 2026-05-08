@@ -10,24 +10,31 @@ part of 'app_router.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(appRouter)
-final appRouterProvider = AppRouterProvider._();
+final appRouterProvider = AppRouterFamily._();
 
 final class AppRouterProvider
     extends $FunctionalProvider<GoRouter, GoRouter, GoRouter>
     with $Provider<GoRouter> {
-  AppRouterProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'appRouterProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+  AppRouterProvider._({
+    required AppRouterFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'appRouterProvider',
+         isAutoDispose: false,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$appRouterHash();
+
+  @override
+  String toString() {
+    return r'appRouterProvider'
+        ''
+        '($argument)';
+  }
 
   @$internal
   @override
@@ -36,7 +43,8 @@ final class AppRouterProvider
 
   @override
   GoRouter create(Ref ref) {
-    return appRouter(ref);
+    final argument = this.argument as String;
+    return appRouter(ref, argument);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -46,6 +54,34 @@ final class AppRouterProvider
       providerOverride: $SyncValueProvider<GoRouter>(value),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is AppRouterProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
 }
 
-String _$appRouterHash() => r'bc0c2c09aa8b4daf2e0ed5e705b20dc09f81a201';
+String _$appRouterHash() => r'1c35f2c8716774026e15e14afb500e40fa811fcf';
+
+final class AppRouterFamily extends $Family
+    with $FunctionalFamilyOverride<GoRouter, String> {
+  AppRouterFamily._()
+    : super(
+        retry: null,
+        name: r'appRouterProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: false,
+      );
+
+  AppRouterProvider call(String initialLocation) =>
+      AppRouterProvider._(argument: initialLocation, from: this);
+
+  @override
+  String toString() => r'appRouterProvider';
+}

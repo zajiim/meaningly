@@ -7,6 +7,7 @@ import 'package:meaningly/core/providers/shared_preferences_provider.dart';
 import 'package:meaningly/core/providers/theme_provider.dart';
 import 'package:meaningly/core/theme/app_theme.dart';
 import 'package:meaningly/features/onboarding/di/onboarding_di_providers.dart';
+import 'package:meaningly/features/splash/presentation/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/constants/app_constants.dart';
@@ -22,13 +23,37 @@ void main() async {
   );
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final router = ref.watch(appRouterProvider);
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  bool _splashDone = false;
+  String _initialRoute = '/home';
+
+  void _onSplashComplete(bool hasCompletedOnboarding) {
+    setState(() {
+      _initialRoute = hasCompletedOnboarding ? '/home' : '/onboarding';
+      _splashDone = true;
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
     final themeMode = ref.watch(themeProviderProvider);
+    if (!_splashDone) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: themeMode,
+        home: SplashScreen(onComplete: _onSplashComplete),
+      );
+    }
+
+    final router = ref.watch(appRouterProvider(_initialRoute));
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
@@ -37,5 +62,26 @@ class MyApp extends ConsumerWidget {
       routerConfig: router,
       title: appName,
     );
+
+
   }
 }
+
+//
+// class MyApp extends ConsumerWidget {
+//   const MyApp({super.key});
+//
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final router = ref.watch(appRouterProvider);
+//     final themeMode = ref.watch(themeProviderProvider);
+//     return MaterialApp.router(
+//       debugShowCheckedModeBanner: false,
+//       theme: AppTheme.lightTheme,
+//       darkTheme: AppTheme.darkTheme,
+//       themeMode: themeMode,
+//       routerConfig: router,
+//       title: appName,
+//     );
+//   }
+// }

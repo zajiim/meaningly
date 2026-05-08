@@ -5,72 +5,54 @@ import 'package:meaningly/features/onboarding/presentation/providers/onboarding_
 import 'package:meaningly/features/splash/presentation/prodivers/splash_provider.dart';
 
 class SplashScreen extends ConsumerWidget {
-  const SplashScreen({super.key});
+  final void Function(bool hasCompletedOnboarding) onComplete;
+  const SplashScreen({super.key, required this.onComplete});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(splashInitializationProvider, (prev, next) {
       if (next is AsyncData && next.value == SplashStatus.loaded) {
         final hasCompletedOnboarding = ref.read(onboardingProvider);
-        if (hasCompletedOnboarding) {
-          context.go('/home');
-        } else {
-          context.go('/onboarding');
-        }
+        onComplete(hasCompletedOnboarding);
       }
     });
 
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.primary,
+      backgroundColor: theme.colorScheme.onSurface,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: theme.colorScheme.onPrimary,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.2),
-                    blurRadius: 10,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: Icon(
-                Icons.menu_book_rounded,
-                size: 64,
-                color: theme.colorScheme.primary,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Image.asset(
+                'assets/images/meaningly_icon.png',
+                width: 120,
+                height: 120,
+                fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(height: 24),
-            // App Name Branding
+            const SizedBox(height: 20),
             Text(
               'Meaningly',
-              style: theme.textTheme.headlineMedium?.copyWith(
-                color: theme.colorScheme.onPrimary,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.2,
+              style: theme.textTheme.headlineSmall?.copyWith(
+                color: theme.colorScheme.primary,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.5,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
             Text(
               'Your Personal Dictionary',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onPrimary.withValues(alpha: 0.8),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.primary.withValues(alpha: 0.6),
+                letterSpacing: 0.2,
               ),
             ),
             const SizedBox(height: 48),
-            // Loading Indicator
-            CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(
-                theme.colorScheme.onPrimary,
-              ),
-            ),
+            CircularProgressIndicator(),
           ],
         ),
       ),

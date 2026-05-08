@@ -17,33 +17,25 @@ import '../../features/splash/presentation/splash_screen.dart';
 
 part 'app_router.g.dart';
 
-@riverpod
-GoRouter appRouter(Ref ref) {
-  final hasCompletedOnboarding = ref.watch(onboardingProvider);
+@Riverpod(keepAlive: true)
+GoRouter appRouter(Ref ref, String initialLocation) {
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: initialLocation,
     debugLogDiagnostics: true,
-    redirect: (context, state) {
-      // final isSplash = state.matchedLocation == '/';
-      // final isOnboarding = state.matchedLocation == '/onboarding';
-      // if(isSplash) {
-      //   return hasCompletedOnboarding ? '/home' : '/onboarding';
-      // }
-      // if (isOnboarding && hasCompletedOnboarding) {
-      //   return '/home';
-      // }
-      final isOnboarding = state.matchedLocation == '/onboarding';
-      if(isOnboarding && hasCompletedOnboarding) {
-        return '/home';
-      }
-      return null;
-    },
+    // redirect: (context, state) {
+    //   final hasCompletedOnboarding = ref.watch(onboardingProvider);
+    //   final isOnboarding = state.matchedLocation == '/onboarding';
+    //   if(isOnboarding && hasCompletedOnboarding) {
+    //     return '/home';
+    //   }
+    //   return null;
+    // },
     routes: [
-      GoRoute(
-        path: '/',
-        name: RouteNames.splash,
-        builder: (context, state) => const SplashScreen(),
-      ),
+      // GoRoute(
+      //   path: '/',
+      //   name: RouteNames.splash,
+      //   builder: (context, state) => const SplashScreen(),
+      // ),
       GoRoute(
         path: '/onboarding',
         name: RouteNames.onBoarding,
