@@ -4,11 +4,11 @@ import 'package:meaningly/features/main/search/domain/usecases/clear_recent_sear
 import 'package:meaningly/features/main/search/domain/usecases/get_recent_search_history_use_case.dart';
 import 'package:meaningly/features/main/search/domain/usecases/get_search_suggestions_use_case.dart';
 import 'package:meaningly/features/main/search/domain/usecases/search_words_use_case.dart';
+import 'package:meaningly/features/splash/di/splash_di_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/database/database_service.dart';
-import '../../collections/presentation/providers/bundled_dictionary_provider.dart';
 import '../data/datasources/remote/dictionary_api_service.dart';
 import '../data/repository/dictionary_repository_impl.dart';
 import '../domain/repository/dictionary_repository.dart';
@@ -52,7 +52,7 @@ DictionaryRepository dictionaryRepository(Ref ref) {
   return DictionaryRepositoryImpl(
     apiService,
     localDataSource,
-        () => ref.read(bundledDictionaryProvider.future),
+        () => ref.read(splashDictionaryProvider.future),
   );
 }
 

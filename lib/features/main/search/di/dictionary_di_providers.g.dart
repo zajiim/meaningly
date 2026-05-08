@@ -234,7 +234,7 @@ final class DictionaryRepositoryProvider
 }
 
 String _$dictionaryRepositoryHash() =>
-    r'e4b0e83e7d60a318352f5efb602a28f77862eae8';
+    r'7973e4fc11bf12b76ee028c45ea61dbd13a98b1d';
 
 @ProviderFor(searchWordsUseCase)
 final searchWordsUseCaseProvider = SearchWordsUseCaseProvider._();

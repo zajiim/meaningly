@@ -24,12 +24,16 @@ GoRouter appRouter(Ref ref) {
     initialLocation: '/',
     debugLogDiagnostics: true,
     redirect: (context, state) {
-      final isSplash = state.matchedLocation == '/';
+      // final isSplash = state.matchedLocation == '/';
+      // final isOnboarding = state.matchedLocation == '/onboarding';
+      // if(isSplash) {
+      //   return hasCompletedOnboarding ? '/home' : '/onboarding';
+      // }
+      // if (isOnboarding && hasCompletedOnboarding) {
+      //   return '/home';
+      // }
       final isOnboarding = state.matchedLocation == '/onboarding';
-      if(isSplash) {
-        return hasCompletedOnboarding ? '/home' : '/onboarding';
-      }
-      if (isOnboarding && hasCompletedOnboarding) {
+      if(isOnboarding && hasCompletedOnboarding) {
         return '/home';
       }
       return null;

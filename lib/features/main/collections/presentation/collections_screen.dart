@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:meaningly/features/main/collections/presentation/providers/bundled_dictionary_provider.dart';
+import 'package:meaningly/features/splash/di/splash_di_providers.dart';
 
 import '../../../../app/router/route_names.dart';
 import '../../search/domain/entities/dictionary_word_entity.dart';
@@ -20,7 +20,7 @@ class _CollectionsScreenState extends ConsumerState<CollectionsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dictionaryAsync = ref.watch(bundledDictionaryProvider);
+    final dictionaryAsync = ref.watch(splashDictionaryProvider);
 
     return Scaffold(
       appBar: AppBar(
