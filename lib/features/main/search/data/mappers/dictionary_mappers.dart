@@ -1,5 +1,3 @@
-
-
 import '../../domain/entities/dictionary_word_entity.dart';
 import '../models/dictionary_word_model.dart';
 

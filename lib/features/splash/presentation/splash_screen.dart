@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:meaningly/features/onboarding/presentation/providers/onboarding_notifier.dart';
 import 'package:meaningly/features/splash/presentation/prodivers/splash_provider.dart';
 

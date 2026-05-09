@@ -1,5 +1,4 @@
 import 'package:chopper/chopper.dart';
-import '../../models/dictionary_word_model.dart';
 
 part 'dictionary_api_service.chopper.dart';
 

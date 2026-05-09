@@ -14,20 +14,6 @@ class DictionaryWordEntity {
     this.license,
     this.sourceUrls,
   });
-  // factory DictionaryWordEntity.fromLocalDictionary(String word, String definition) {
-  //   return DictionaryWordEntity(
-  //     word: word,
-  //     phonetics: [],
-  //     meanings: [
-  //       Meaning(
-  //         partOfSpeech: 'noun',
-  //         definitions: [
-  //           Definition(definition: definition),
-  //         ],
-  //       )
-  //     ],
-  //   );
-  // }
 }
 
 

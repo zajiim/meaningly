@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:meaningly/core/constants/app_constants.dart';
 import 'package:meaningly/core/providers/shared_preferences_provider.dart';
 import 'package:meaningly/core/providers/theme_provider.dart';

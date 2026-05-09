@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:fpdart/src/either.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:meaningly/core/error/failure.dart';
 
 import '../../../collections/data/mappers/dictionary_collection_mapper.dart';

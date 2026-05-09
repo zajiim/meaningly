@@ -2,18 +2,14 @@ import 'package:go_router/go_router.dart';
 import 'package:meaningly/app/router/route_names.dart';
 import 'package:meaningly/features/main/bookmarks/presentation/bookmarks_screen.dart';
 import 'package:meaningly/features/main/collections/presentation/collections_screen.dart';
-import 'package:meaningly/features/main/search/data/models/dictionary_word_model.dart';
 import 'package:meaningly/features/main/search/domain/entities/dictionary_word_entity.dart';
 import 'package:meaningly/features/main/search/presentation/search_page.dart';
 import 'package:meaningly/features/main/settings/presentation/settings_screen.dart';
 import 'package:meaningly/features/onboarding/presentation/onboarding_screen.dart';
-import 'package:meaningly/features/onboarding/presentation/providers/onboarding_notifier.dart';
-import 'package:path/path.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/main/details/presentation/word_detail_page.dart';
 import '../../features/main/search/presentation/widgets/bottom_nav_bar.dart';
-import '../../features/splash/presentation/splash_screen.dart';
 
 part 'app_router.g.dart';
 
@@ -22,20 +18,7 @@ GoRouter appRouter(Ref ref, String initialLocation) {
   return GoRouter(
     initialLocation: initialLocation,
     debugLogDiagnostics: true,
-    // redirect: (context, state) {
-    //   final hasCompletedOnboarding = ref.watch(onboardingProvider);
-    //   final isOnboarding = state.matchedLocation == '/onboarding';
-    //   if(isOnboarding && hasCompletedOnboarding) {
-    //     return '/home';
-    //   }
-    //   return null;
-    // },
     routes: [
-      // GoRoute(
-      //   path: '/',
-      //   name: RouteNames.splash,
-      //   builder: (context, state) => const SplashScreen(),
-      // ),
       GoRoute(
         path: '/onboarding',
         name: RouteNames.onBoarding,

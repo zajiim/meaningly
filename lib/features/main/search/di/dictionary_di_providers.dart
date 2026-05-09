@@ -4,7 +4,6 @@ import 'package:meaningly/features/main/search/domain/usecases/clear_recent_sear
 import 'package:meaningly/features/main/search/domain/usecases/get_recent_search_history_use_case.dart';
 import 'package:meaningly/features/main/search/domain/usecases/get_search_suggestions_use_case.dart';
 import 'package:meaningly/features/main/search/domain/usecases/search_words_use_case.dart';
-import 'package:meaningly/features/splash/di/splash_di_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/constants/app_constants.dart';

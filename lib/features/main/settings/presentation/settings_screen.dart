@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fpdart/fpdart.dart';
 import 'package:meaningly/core/providers/theme_provider.dart';
 import 'package:meaningly/features/main/settings/presentation/providers/settings_provider.dart';
 import 'package:meaningly/features/main/settings/presentation/widgets/settings_item.dart';

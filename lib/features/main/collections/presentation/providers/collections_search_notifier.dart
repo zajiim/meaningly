@@ -1,6 +1,5 @@
 import 'package:meaningly/features/main/collections/presentation/collections_states.dart';
 import 'package:meaningly/features/main/search/di/dictionary_di_providers.dart';
-import 'package:meaningly/features/splash/di/splash_di_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 
@@ -32,11 +31,14 @@ class CollectionsSearchNotifier extends _$CollectionsSearchNotifier {
     state = CollectionsSuggestionsLoaded(suggestions, query: query);
   }
 
-  void search(String query) {
+  void search(String query) async {
     if (query.trim().isEmpty) {
       state =  CollectionSearchInitial();
       return;
     }
+    final localDataSource = ref.read(localDictionaryDataSourceProvider);
+    await localDataSource.saveRecentSearchHistory(query);
+
     state = CollectionSearchInitial(query: query.toLowerCase());
   }
 

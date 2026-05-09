@@ -134,7 +134,7 @@ class LocalDictionaryDataSourceImpl implements LocalDictionaryDataSource {
       offlineDictionaryTableName,
       where: query.isNotEmpty ? 'word LIKE ?' : null,
       whereArgs: query.isNotEmpty ? ['$query%'] : null,
-      orderBy: 'word ASC',
+      // orderBy: 'word ASC',
     );
     return maps.map((e) => MapEntry(e['word'] as String, e['meaning'] as String)).toList();
   }

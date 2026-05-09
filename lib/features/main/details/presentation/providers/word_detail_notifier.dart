@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:meaningly/core/providers/audio_player_provider.dart';
 import 'package:meaningly/features/main/bookmarks/presentation/providers/bookmark_notifier.dart';
 import 'package:meaningly/features/main/details/presentation/word_detail_states.dart';

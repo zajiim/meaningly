@@ -66,7 +66,7 @@ final class OfflineWordsProvider
   }
 }
 
-String _$offlineWordsHash() => r'11ffb4f7fc277088b4c55f0b77a35fd49a6c37ec';
+String _$offlineWordsHash() => r'a8bc1efd6701c450ec6f2ed54dd3168641a1d32b';
 
 final class OfflineWordsFamily extends $Family
     with

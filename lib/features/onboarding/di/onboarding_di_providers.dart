@@ -1,9 +1,7 @@
-
 import 'package:meaningly/core/providers/shared_preferences_provider.dart';
 import 'package:meaningly/features/onboarding/data/repositories/onboarding_repository_impl.dart';
 import 'package:meaningly/features/onboarding/domain/usecases/complete_onboarding_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/data_sources/local_onboarding_data_source.dart';
 import '../domain/repositories/onboarding_repository.dart';

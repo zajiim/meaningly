@@ -17,6 +17,9 @@ class SplashRepositoryImpl implements SplashRepository {
   Future<void> loadDictionary() async {
     try {
       final isLoaded = sharedPreferences.getBool(isDictionaryLoadedKey) ?? false;
+      if (isLoaded) {
+        return;
+      }
       final dictionaryData = await localDataSource.loadDictionaryData();
       await localDictionaryDataSource.populateOfflineDictionary(dictionaryData);
       await sharedPreferences.setBool(isDictionaryLoadedKey, true);

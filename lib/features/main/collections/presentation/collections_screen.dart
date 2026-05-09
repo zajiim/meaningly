@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:meaningly/core/constants/app_constants.dart';
 import 'package:meaningly/features/main/collections/di/collections_di_providers.dart';
 import 'package:meaningly/features/main/collections/presentation/collections_states.dart';
 import 'package:meaningly/features/main/collections/presentation/providers/collections_search_notifier.dart';
 import 'package:meaningly/features/main/collections/presentation/widgets/collection_search_bar.dart';
-import 'package:meaningly/features/splash/di/splash_di_providers.dart';
 
 import '../../../../app/router/route_names.dart';
 import '../data/mappers/dictionary_collection_mapper.dart';
