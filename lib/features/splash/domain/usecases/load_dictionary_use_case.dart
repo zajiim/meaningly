@@ -5,7 +5,7 @@ class LoadDictionaryUseCase {
 
   LoadDictionaryUseCase(this.repository);
 
-  Future<Map<String, String>> call() async {
+  Future<void> call() async {
     return await repository.loadDictionary();
   }
 }

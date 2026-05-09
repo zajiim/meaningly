@@ -21,7 +21,7 @@ class DatabaseService {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, dbName);
 
-    return await openDatabase(path, version: 1, onCreate: _onCreate);
+    return await openDatabase(path, version: 2, onCreate: _onCreate, onUpgrade: _onUpgrade);
   }
 }
 
@@ -48,4 +48,22 @@ Future<void> _onCreate(Database db, int version) async {
         created_at INTEGER
       )
     ''');
+
+  await db.execute('''
+      CREATE TABLE IF NOT EXISTS $offlineDictionaryTableName (
+        word TEXT PRIMARY KEY,
+        meaning TEXT
+      )
+  ''');
+}
+
+Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+  if(oldVersion < 2) {
+    db.execute('''
+      CREATE TABLE OF NOT EXISTS $offlineDictionaryTableName (
+        word TEXT PRIMARY KEY,
+        meaning TEXT
+      )
+    ''');
+  }
 }

@@ -1,3 +1,5 @@
+import 'package:meaningly/core/providers/shared_preferences_provider.dart';
+import 'package:meaningly/features/main/search/di/dictionary_di_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../data/datasources/local/splash_data_source.dart';
@@ -16,7 +18,9 @@ SplashDataSource splashLocalDataSource(Ref ref) {
 @Riverpod(keepAlive: true)
 SplashRepository splashRepository(Ref ref) {
   final dataSource = ref.watch(splashLocalDataSourceProvider);
-  return SplashRepositoryImpl(dataSource);
+  final localDict = ref.watch(localDictionaryDataSourceProvider);
+  final prefs = ref.watch(sharedPrefsProvider);
+  return SplashRepositoryImpl(dataSource, localDict, prefs);
 }
 
 @Riverpod(keepAlive: true)
@@ -28,7 +32,7 @@ LoadDictionaryUseCase loadDictionaryUseCase(Ref ref) {
 @Riverpod(keepAlive: true)
 class SplashDictionary extends _$SplashDictionary {
   @override
-  FutureOr<Map<String, String>> build() async {
+  FutureOr<void> build() async {
     final useCase = ref.watch(loadDictionaryUseCaseProvider);
     return await useCase();
   }

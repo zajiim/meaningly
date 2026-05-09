@@ -100,7 +100,7 @@ final class SplashRepositoryProvider
   }
 }
 
-String _$splashRepositoryHash() => r'35d56d827da8de316502249eac03dc57d0c69614';
+String _$splashRepositoryHash() => r'e46ceb00368748961f2a5bc57dc5a62f3b0c6b03';
 
 @ProviderFor(loadDictionaryUseCase)
 final loadDictionaryUseCaseProvider = LoadDictionaryUseCaseProvider._();
@@ -154,7 +154,7 @@ String _$loadDictionaryUseCaseHash() =>
 final splashDictionaryProvider = SplashDictionaryProvider._();
 
 final class SplashDictionaryProvider
-    extends $AsyncNotifierProvider<SplashDictionary, Map<String, String>> {
+    extends $AsyncNotifierProvider<SplashDictionary, void> {
   SplashDictionaryProvider._()
     : super(
         from: null,
@@ -174,20 +174,19 @@ final class SplashDictionaryProvider
   SplashDictionary create() => SplashDictionary();
 }
 
-String _$splashDictionaryHash() => r'12ffd82d3bbdce643125fdd5f861b539e7c871be';
+String _$splashDictionaryHash() => r'da9ae182955812f370ee571f5a11472837025041';
 
-abstract class _$SplashDictionary extends $AsyncNotifier<Map<String, String>> {
-  FutureOr<Map<String, String>> build();
+abstract class _$SplashDictionary extends $AsyncNotifier<void> {
+  FutureOr<void> build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref =
-        this.ref as $Ref<AsyncValue<Map<String, String>>, Map<String, String>>;
+    final ref = this.ref as $Ref<AsyncValue<void>, void>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<Map<String, String>>, Map<String, String>>,
-              AsyncValue<Map<String, String>>,
+              AnyNotifier<AsyncValue<void>, void>,
+              AsyncValue<void>,
               Object?,
               Object?
             >;

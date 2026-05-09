@@ -42,7 +42,7 @@ final class CollectionsSearchNotifierProvider
 }
 
 String _$collectionsSearchNotifierHash() =>
-    r'c14cf7a4f58ad17894a54ab36a83050ce9af6665';
+    r'8cab53d7acf95e9dfd1b8f95c807241314231a9f';
 
 abstract class _$CollectionsSearchNotifier
     extends $Notifier<CollectionsStates> {

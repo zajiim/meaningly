@@ -16,6 +16,14 @@ abstract class LocalDictionaryDataSource {
   Future<List<String>> getRecentSearchHistories();
 
   Future<void> clearRecentSearchHistory();
+  
+  Future<void> populateOfflineDictionary(Map<String, String> data);
+
+  Future<String?> getOfflineWordMeaning(String word);
+
+  Future<List<String>> getOfflineSearchSuggestions(String query);
+
+  Future<List<MapEntry<String, String>>> getOfflineWords({String query = ''});
 }
 
 class LocalDictionaryDataSourceImpl implements LocalDictionaryDataSource {
@@ -92,5 +100,56 @@ class LocalDictionaryDataSourceImpl implements LocalDictionaryDataSource {
   Future<void> clearRecentSearchHistory() async {
     final db = await _databaseService.database;
     await db.delete(recentSearchTableName);
+  }
+
+  @override
+  Future<List<String>> getOfflineSearchSuggestions(String query) async {
+    final db = await _databaseService.database;
+    final maps = await db.query(
+      offlineDictionaryTableName,
+      columns: ['word'],
+      where: 'word LIKE ?',
+      whereArgs: ['$query%'],
+      limit: 20,
+    );
+    return maps.map((e) => e['word'] as String).toList();
+  }
+
+  @override
+  Future<String?> getOfflineWordMeaning(String word) async {
+    final db = await _databaseService.database;
+    final maps = await db.query(
+      offlineDictionaryTableName,
+      where: 'word = ?',
+      whereArgs: [word],
+    );
+    if (maps.isNotEmpty) return maps.first['meaning'] as String;
+    return null;
+  }
+
+  @override
+  Future<List<MapEntry<String, String>>> getOfflineWords({String query = ''}) async {
+    final db = await _databaseService.database;
+    final maps = await db.query(
+      offlineDictionaryTableName,
+      where: query.isNotEmpty ? 'word LIKE ?' : null,
+      whereArgs: query.isNotEmpty ? ['$query%'] : null,
+      orderBy: 'word ASC',
+    );
+    return maps.map((e) => MapEntry(e['word'] as String, e['meaning'] as String)).toList();
+  }
+
+  @override
+  Future<void> populateOfflineDictionary(Map<String, String> data) async{
+    final db = await _databaseService.database;
+    final batch = db.batch();
+    for(final entry in data.entries) {
+      batch.insert(
+          offlineDictionaryTableName,
+          {'word': entry.key, 'meaning': entry.value},
+        conflictAlgorithm: ConflictAlgorithm.replace
+      );
+    }
+    await batch.commit(noResult: true);
   }
 }

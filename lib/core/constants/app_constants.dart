@@ -6,3 +6,5 @@ const String recentSearchTableName = "recent_searches";
 const String bookmarksTableName = "bookmarked_words";
 const String onboardingCompleted = "has_onboarding_completed";
 const String themeValue = "theme_value";
+const String offlineDictionaryTableName = "offline_dictionary";
+const String isDictionaryLoadedKey = "is_dictionary_loaded";

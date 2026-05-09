@@ -48,12 +48,7 @@ LocalDictionaryDataSource localDictionaryDataSource(Ref ref) {
 DictionaryRepository dictionaryRepository(Ref ref) {
   final apiService = ref.watch(dictionaryApiServiceProvider);
   final localDataSource = ref.watch(localDictionaryDataSourceProvider);
-  // return DictionaryRepositoryImpl(apiService, localDataSource);
-  return DictionaryRepositoryImpl(
-    apiService,
-    localDataSource,
-        () => ref.read(splashDictionaryProvider.future),
-  );
+  return DictionaryRepositoryImpl(apiService, localDataSource);
 }
 
 @Riverpod(keepAlive: true)

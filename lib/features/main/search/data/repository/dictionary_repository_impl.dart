@@ -13,10 +13,10 @@ import '../models/dictionary_word_model.dart';
 class DictionaryRepositoryImpl implements DictionaryRepository {
   final DictionaryApiService _api;
   final LocalDictionaryDataSource _local;
-  final Future<Map<String, String>> Function() _getBundledDictionary;
+  // final Future<Map<String, String>> Function() _getBundledDictionary;
 
 
-  const DictionaryRepositoryImpl(this._api, this._local, this._getBundledDictionary);
+  const DictionaryRepositoryImpl(this._api, this._local);
 
   @override
   Future<Either<Failure, List<DictionaryWordEntity>>> searchWords(
@@ -64,8 +64,9 @@ class DictionaryRepositoryImpl implements DictionaryRepository {
   }
 
   Future<Either<Failure, List<DictionaryWordEntity>>> _getOfflineFallback(String query) async {
-    final bundledDict = await _getBundledDictionary();
-    final localDef = bundledDict[query];
+    // final bundledDict = await _getBundledDictionary();
+    final localDef = await _local.getOfflineWordMeaning(query.toLowerCase());
+    // final localDef = bundledDict[query];
 
     if (localDef != null) {
       debugPrint("Returning from BUNDLED DICTIONARY for: $query");
@@ -101,13 +102,14 @@ class DictionaryRepositoryImpl implements DictionaryRepository {
   @override
   Future<Either<Failure, List<String>>> getSearchSuggestions(String query) async {
     try {
-      final bundledDict = await _getBundledDictionary();
+      // final bundledDict = await _getBundledDictionary();
       final lowercaseQuery = query.toLowerCase();
+      final suggestions = await _local.getOfflineSearchSuggestions(lowercaseQuery);
 
-      final suggestions = bundledDict.keys
-          .where((key) => key.startsWith(lowercaseQuery))
-          .take(20)
-          .toList();
+      // final suggestions = bundledDict.keys
+      //     .where((key) => key.startsWith(lowercaseQuery))
+      //     .take(20)
+      //     .toList();
 
       return Right(suggestions);
     } catch (e) {

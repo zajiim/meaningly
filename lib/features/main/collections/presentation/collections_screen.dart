@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:meaningly/core/constants/app_constants.dart';
+import 'package:meaningly/features/main/collections/di/collections_di_providers.dart';
 import 'package:meaningly/features/main/collections/presentation/collections_states.dart';
 import 'package:meaningly/features/main/collections/presentation/providers/collections_search_notifier.dart';
 import 'package:meaningly/features/main/collections/presentation/widgets/collection_search_bar.dart';
@@ -14,8 +16,9 @@ class CollectionsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dictionaryAsync = ref.watch(splashDictionaryProvider);
+    // final dictionaryAsync = ref.watch(splashDictionaryProvider);
     final searchState = ref.watch(collectionsSearchProvider);
+    final offlineWords = ref.watch(offlineWordsProvider(searchState.query));
 
     return Scaffold(
       appBar: AppBar(
@@ -45,14 +48,14 @@ class CollectionsScreen extends ConsumerWidget {
           ),
         ),
       ),
-      body: _buildBody(context, ref, dictionaryAsync, searchState),
+      body: _buildBody(context, ref, offlineWords, searchState),
     );
   }
 
   Widget _buildBody(
       BuildContext context,
       WidgetRef ref,
-      AsyncValue<Map<String, String>> dictionaryAsync,
+      AsyncValue<List<MapEntry<String, String>>> offlineWords,
       CollectionsStates searchState,
       ) {
     if (searchState is CollectionsSuggestionsLoaded) {
@@ -81,23 +84,23 @@ class CollectionsScreen extends ConsumerWidget {
       );
     }
 
-    return dictionaryAsync.when(
-      data: (dictionary) {
-        final query = searchState.query;
-        final entries = query.isEmpty
-            ? dictionary.entries.toList()
-            : dictionary.entries
-            .where((e) => e.key.toLowerCase().startsWith(query))
-            .toList();
+    return offlineWords.when(
+      data: (dictionaryWords) {
+        // final query = searchState.query;
+        // final entries = query.isEmpty
+        //     ? dictionary.entries.toList()
+        //     : dictionary.entries
+        //     .where((e) => e.key.toLowerCase().startsWith(query))
+        //     .toList();
 
-        if (entries.isEmpty) {
+        if (dictionaryWords.isEmpty) {
           return const Center(child: Text("No words found."));
         }
 
         return ListView.builder(
-          itemCount: entries.length,
+          itemCount: dictionaryWords.length,
           itemBuilder: (context, index) {
-            final entry = entries[index];
+            final entry = dictionaryWords[index];
             return ListTile(
               title: Text(
                 entry.key,
