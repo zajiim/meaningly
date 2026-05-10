@@ -39,7 +39,7 @@ class BottomNavBar extends ConsumerWidget {
             // onTap: (index) => _onTap(index),
               onTap: _onTap,
               items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+                BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
                 BottomNavigationBarItem(icon: Icon(Icons.stacked_bar_chart), label: 'Collections'),
                 BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: 'Bookmarks'),
                 BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
